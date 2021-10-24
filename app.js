@@ -13,7 +13,7 @@ const orderRoutes = require('./api/routes/orders');
 mongoose.connect('mongodb://localhost:27017/restapi_db');
 
 
-
+mongoose.Promise = global.Promise;
 
 app.use(morgan('dev')); //logging our actions
 app.use(bodyParser.urlencoded({extended: false})); 

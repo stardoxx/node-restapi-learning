@@ -10,10 +10,17 @@ router.get('/',(req, res) => {
     // res.status(200).json({
     //     message:"Handling GET request to /products"
     // });
-    Product.find().exec()
+    Product.find()
+    .select("_id name price")
+    .exec()
     .then(docs => {
-        console.log(docs);
-        res.status(200).json(docs);
+        // console.log(docs);
+        // 
+        const response = {
+            count: docs.length,
+            products: docs
+        }
+        res.status(200).json(response);
     })
     .catch(err => {
         console.log(err);
@@ -69,7 +76,9 @@ router.get('/:productId',(req, res) => {
     //         message: `you passed on id ${id}`
     //     });
     // }
-    Product.findById(id).exec()
+    Product.findById(id)
+    .select("_id name price")
+    .exec()
     .then(doc => {
         console.log(doc);
         if(doc){
@@ -77,7 +86,7 @@ router.get('/:productId',(req, res) => {
         }
         else{
             res.status(404).json({
-                message: "No valid entry point found for provided id: ${id}"
+                message: `No valid entry point found for provided id: ${id}`
             });
         }
         
